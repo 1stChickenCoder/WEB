@@ -28,7 +28,13 @@
 
 export function myMap(arr, fn) {
   // TODO
+  const result = [];
+  for (let v of arr) {
+    result.push(fn(v));
+  }
+  return result;
 }
+
 
 export function myFilter(arr, predicate) {
   // TODO
