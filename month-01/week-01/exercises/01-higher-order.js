@@ -28,6 +28,8 @@
 
 export function myMap(arr, fn) {
   // TODO
+  // Big-O: O(n) về thời gian; O(n) về bộ nhớ
+  if (typeof fn !== "function") throw TypeError;
   const result = [];
   for (let v of arr) {
     result.push(fn(v));
@@ -35,11 +37,40 @@ export function myMap(arr, fn) {
   return result;
 }
 
-
 export function myFilter(arr, predicate) {
   // TODO
+  // Big-O: O(n) về thời gian; O(n) về bộ nhớ
+  if (typeof predicate !== "function") throw TypeError;
+  const result = [];
+  for (let i of arr) {
+    if (predicate(i)) result.push(i);
+  }
+  return result;
 }
 
 export function myReduce(arr, reducer, initialValue) {
   // TODO
+  // Big-O: O(n) về thời gian; O(n) về bộ nhớ
+  if (
+    (arr.length === 0 && arguments.length < 3) ||
+    typeof reducer !== "function"
+  )
+    throw TypeError;
+  let acc;
+  if (arr.length === 0 && !initialValue) {
+    throw TypeError;
+  }
+  if (initialValue !== undefined) {
+    acc = initialValue;
+  } else {
+    acc = arr[0];
+  }
+  for (let i = initialValue !== undefined ? 0 : 1; i < arr.length; i++) {
+    acc = reducer(acc, arr[i], i, arr);
+  }
+  return acc;
 }
+
+console.log(myMap([1, 2, 3], (x) => x * 2));
+console.log(myFilter([1, 2, 3, 4], (x) => x % 2 === 0));
+console.log(myReduce([1, 2, 3, 4], (acc, x) => acc + x, 0));
