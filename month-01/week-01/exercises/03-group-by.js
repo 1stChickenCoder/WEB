@@ -23,4 +23,9 @@
 
 export function groupBy(arr, keyOrFn) {
   // TODO
+  if (!Array.isArray(arr)) {
+    throw new TypeError('arr must be an array');
+  }
+  const result = {};
+  
 }
