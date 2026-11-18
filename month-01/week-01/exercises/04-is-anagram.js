@@ -21,4 +21,36 @@
 
 export function isAnagram(a, b) {
   // TODO
+  // Big-O = O(n)
+  const normalize = (str) => str.toLowerCase().replace(/\s+/g, "");
+
+  a = normalize(a);
+  b = normalize(b);
+
+  const countMapA = new Map();
+  for (const char of a) {
+    countMapA.set(char, (countMapA.get(char) || 0) + 1);
+  }
+
+  const countMapB = new Map();
+  for (const char of b) {
+    countMapB.set(char, (countMapB.get(char) || 0) + 1);
+  }
+
+  if (countMapA.size !== countMapB.size) {
+    return false;
+  }
+
+  for (const [char, count] of countMapA.entries()) {
+    if (countMapB.get(char) !== count) {
+      return false;
+    }
+  }
+
+  return true;
 }
+
+console.log(isAnagram("listen", "silent")); // true
+console.log(isAnagram("Dormitory", "dirty room")); // true
+console.log(isAnagram("rat", "car")); // false
+console.log(isAnagram("aab", "abb")); // false

@@ -29,10 +29,11 @@
 export function myMap(arr, fn) {
   // TODO
   // Big-O: O(n) về thời gian; O(n) về bộ nhớ
-  if (typeof fn !== "function") throw TypeError;
+  if (typeof fn !== "function") throw new TypeError("fn must be a function");
   const result = [];
-  for (let v of arr) {
-    result.push(fn(v));
+  for (let i = 0; i < arr.length; i++) {
+    const res = fn(arr[i], i, arr);
+    if (res !== undefined) result.push(res);
   }
   return result;
 }
@@ -40,10 +41,11 @@ export function myMap(arr, fn) {
 export function myFilter(arr, predicate) {
   // TODO
   // Big-O: O(n) về thời gian; O(n) về bộ nhớ
-  if (typeof predicate !== "function") throw TypeError;
+  if (typeof predicate !== "function")
+    throw new TypeError("predicate must be a function");
   const result = [];
-  for (let i of arr) {
-    if (predicate(i)) result.push(i);
+  for (let i = 0; i < arr.length; i++) {
+    if (predicate(arr[i], i, arr)) result.push(arr[i]);
   }
   return result;
 }
@@ -55,17 +57,21 @@ export function myReduce(arr, reducer, initialValue) {
     (arr.length === 0 && arguments.length < 3) ||
     typeof reducer !== "function"
   )
-    throw TypeError;
+    throw new TypeError("reducer must be a function");
   let acc;
-  if (arr.length === 0 && !initialValue) {
-    throw TypeError;
-  }
-  if (initialValue !== undefined) {
+  let startIndex = 0;
+  if (arguments.length >= 3) {
     acc = initialValue;
+
   } else {
     acc = arr[0];
+    startIndex = 1;
   }
-  for (let i = initialValue !== undefined ? 0 : 1; i < arr.length; i++) {
+  for (
+    let i = startIndex;
+    i < arr.length;
+    i++
+  ) {
     acc = reducer(acc, arr[i], i, arr);
   }
   return acc;
