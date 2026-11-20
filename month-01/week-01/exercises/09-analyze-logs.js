@@ -36,6 +36,132 @@
  * Độ phức tạp mong đợi: O(n) cho phần thống kê (phần sort top path: O(k log k), k = số path khác nhau).
  */
 
-export function analyzeLogs(lines) {
-  // TODO
+import { groupBy } from "./03-group-by.js";
+
+const samples = [
+  "2026-11-10T08:00:01Z GET /api/users?page=2 200 120ms",
+  "2026-11-10T08:00:02Z GET /api/users 200 80ms",
+  "2026-11-10T08:00:03Z POST /api/login 401 30ms",
+  "2026-11-10T08:00:04Z GET /api/products 500 900ms",
+  "dòng rác không đúng định dạng",
+  "2026-11-10T08:00:05Z GET /api/products   200   100ms",
+  "2026-11-10T08:00:06Z FETCH /api/users 200 10ms",
+  "2026-11-10T08:00:07Z GET /api/orders 200 abcms",
+  "2026-11-10T08:00:08Z DELETE /api/users/7 204 50ms",
+  "2026-11-10T08:00:09Z GET /api/users 503 900ms",
+];
+
+// Helpers
+const splitComponents = (line) => {
+  const parts = line.trim().split(/\s+/);
+  return parts.length === 5 ? parts : [];
+};
+
+const checkMethod = (method) => {
+  const validMethods = ["GET", "POST", "PUT", "PATCH", "DELETE"];
+  return validMethods.includes(method);
+};
+
+const checkStatus = (status) => {
+  if (typeof status === "string" && !/^\d+$/.test(status)) return false;
+  const n = Number(status);
+  return Number.isInteger(n) && n >= 100 && n <= 599;
+};
+
+const checkPath = (path) => {
+  let _path = "";
+  _path = path.split("?")?.[0];
+  return _path;
+};
+
+const checkDuration = (duration) => {
+  const ms = duration.slice(-2);
+  if (ms !== "ms") return false;
+
+  const value = duration.slice(0, -2);
+  if (typeof value === "string" && !/^\d+$/.test(value)) return false;
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 0;
+};
+
+// Main function
+export function analyzeLogs(samples) {
+  const results = {
+    total: 0, // số dòng HỢP LỆ
+    invalid: 0, // số dòng không hợp lệ
+    byStatus: {}, // đếm theo status code, ví dụ { '200': 3, '404': 1 }
+    topPaths: [], // tối đa 3 path nhiều request nhất,
+    // sắp xếp count giảm dần, hòa thì path tăng dần (theo bảng chữ cái)
+    avgDurationMs: 0, // trung bình duration, làm tròn số nguyên (Math.round). 0 nếu total = 0
+    errorRatePercent: 0, // % request có status >= 500, làm tròn 1 chữ số thập phân. 0 nếu total = 0
+    slowest: {}, // request chậm nhất; hòa thì lấy dòng xuất hiện trước. null nếu total = 0
+  };
+  let total = 0;
+  let invalid = 0;
+
+  const byStatus = [];
+  let countStatus = [];
+
+  const paths = [];
+  let countPath = [];
+
+  let totalDuration = 0;
+  let errorStatus = 0;
+
+  let [slowestPath, slowestDuration] = ["", 0];
+
+  for (let i = 0; i < samples.length; i++) {
+    let [time, method, path, status, duration] = splitComponents(samples[i]);
+
+    if (checkMethod(method) && checkStatus(status) && checkDuration(duration)) {
+      total++;
+
+      byStatus.push(status);
+
+      paths.push(checkPath(path));
+
+      totalDuration += Number(duration.slice(0, -2));
+
+      if (Number(status) >= 500) errorStatus++;
+
+      if (Number(duration.slice(0, -2)) > slowestDuration) {
+        slowestDuration = Number(duration.slice(0, -2));
+        slowestPath = path;
+      }
+    } else invalid++;
+  }
+
+  countStatus = Object.fromEntries(
+    Object.entries(groupBy(byStatus, Math.floor)).map(([key, values]) => [
+      key,
+      values.length,
+    ]),
+  );
+
+  countPath = Object.fromEntries(
+    Object.entries(groupBy(paths, String))
+      .map(([key, values]) => [key, values.length])
+      .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]))
+      .slice(0, 3),
+  );
+
+  results.topPaths = paths !== undefined ? paths : "";
+  results.total = total !== undefined ? total : 0;
+  results.invalid = invalid !== undefined ? invalid : 0;
+  results.byStatus = countStatus !== undefined ? countStatus : {};
+  results.topPaths = Object.entries(countPath).map((path) => ({
+    path: path[0],
+    count: path[1],
+  }));
+  results.avgDurationMs = Math.round(totalDuration / total) || 0;
+  results.errorRatePercent = Math.round((errorStatus * 1000) / total) / 10 || 0;
+  results.slowest =
+    total !== 0
+      ? {
+          path: slowestPath,
+          durationMs: slowestDuration,
+        }
+      : null;
+
+  return results;
 }

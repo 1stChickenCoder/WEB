@@ -19,4 +19,29 @@
 
 export function compress(str) {
   // TODO
+  if (typeof str !== 'string') {
+    throw new TypeError('str must be a string');
+  }
+
+  const result = [];
+  for (let i = 0; i < str.length; i++) {
+    const currentChar = str[i];
+    let count = 1;
+
+    while (i + 1 < str.length && str[i + 1] === currentChar) {
+      count++;
+      i++;
+    }
+
+    result.push(currentChar + count);
+  }
+
+  const compressed = result.join('');
+  return compressed.length < str.length ? compressed : str;
 }
+
+console.log(compress('aaabccc'));         // 'a3b1c3'
+console.log(compress('aaaaaaaaaaaab'));  // 'a12b1'
+console.log(compress('abc'));            // 'abc'
+console.log(compress('aabbcc'));         // 'aabbcc'
+console.log(compress(''));               // ''  

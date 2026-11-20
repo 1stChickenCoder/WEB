@@ -45,14 +45,14 @@ export function groupBy(arr, keyOrFn) {
   return result;
 }
 
-console.log(groupBy([1.2, 1.8, 2.1], Math.floor));
-console.log(
-  groupBy(
-    [
-      { role: "admin", name: "An" },
-      { role: "user", name: "Bình" },
-      { role: "admin", name: "Chi" },
-    ],
-    "role",
-  ),
-);
+// console.log(groupBy([1.2, 1.8, 2.1], Math.floor));
+// console.log(
+//   groupBy(
+//     [
+//       { role: "admin", name: "An" },
+//       { role: "user", name: "Bình" },
+//       { role: "admin", name: "Chi" },
+//     ],
+//     "role",
+//   ),
+// );
