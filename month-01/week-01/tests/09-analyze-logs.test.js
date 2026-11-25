@@ -72,3 +72,8 @@ test('topPaths hòa count thì sắp theo path', () => {
     { path: '/a', count: 1 }, { path: '/b', count: 1 }, { path: '/c', count: 1 },
   ]);
 });
+
+// --- Thầy bổ sung sau review Tuần 1 ---
+test('slowest.path cũng phải bỏ query string', () => {
+  assert.deepEqual(analyzeLogs(['t GET /a?x=1 200 99ms', 't GET /b 200 5ms']).slowest, { path: '/a', durationMs: 99 });
+});

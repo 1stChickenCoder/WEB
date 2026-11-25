@@ -39,3 +39,9 @@ test('không sửa mảng gốc', () => {
   assert.deepEqual(arr, [1, [2, [3]]]);
   assert.equal(arr[1], inner);
 });
+
+// --- Thầy bổ sung sau review Tuần 1 ---
+test('mảng con rất lớn (200.000 phần tử) không làm crash', () => {
+  const big = new Array(200_000).fill(1);
+  assert.equal(banFlat(() => flatten([big, [big]])).length, 400_000);
+});

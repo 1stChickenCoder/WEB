@@ -37,3 +37,9 @@ test('hiệu năng: 100.000 phần tử phải chạy dưới 300ms (O(n))', () 
   assert.deepEqual(result, [n - 2, n - 1]);
   assert.ok(elapsed < 300, `Mất ${elapsed.toFixed(0)}ms, có vẻ là O(n²)`);
 });
+
+// --- Thầy bổ sung sau review Tuần 1 ---
+test('số lặp lại: cùng j thì chọn i nhỏ nhất', () => {
+  assert.deepEqual(twoSum([1, 1, 5], 6), [0, 2]);
+  assert.deepEqual(twoSum([2, 2, 2, 4], 6), [0, 3]);
+});

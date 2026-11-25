@@ -94,3 +94,10 @@ describe('myReduce', () => {
     assert.throws(() => myReduce([1], undefined, 0), TypeError);
   });
 });
+
+// --- Thầy bổ sung sau review Tuần 1 ---
+describe('myMap (bổ sung)', () => {
+  test('giữ nguyên kết quả undefined: độ dài output luôn bằng input', () => {
+    assert.deepEqual(banBuiltins(() => myMap([1, 2, 3], (x) => (x > 1 ? x : undefined))), [undefined, 2, 3]);
+  });
+});
