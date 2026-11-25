@@ -26,3 +26,16 @@ test('không sửa mảng gốc', () => {
   groupBy(arr, (x) => x % 2);
   assert.deepEqual(arr, [1, 2, 3]);
 });
+
+// --- Thầy bổ sung sau review Tuần 1 ---
+test('key trùng tên thuộc tính kế thừa từ Object.prototype', () => {
+  const items = [{ k: 'constructor' }, { k: 'toString' }, { k: 'constructor' }];
+  const result = groupBy(items, 'k');
+  assert.equal(result.constructor.length, 2);
+  assert.equal(result.toString.length, 1);
+});
+test('chỉ duyệt phần tử của mảng, không duyệt thuộc tính thêm vào mảng', () => {
+  const arr = [1, 2];
+  arr.extra = 99;
+  assert.deepEqual(groupBy(arr, (x) => x), { 1: [1], 2: [2] });
+});
