@@ -97,7 +97,7 @@ Mục tiêu: hiểu thứ React đang che giấu.
 
 | Tuần | Nội dung |
 |---|---|
-| 1 | Mạng: DNS, TCP, TLS, HTTP/1.1 vs 2 vs 3, header, cache (`Cache-Control`, `ETag`), cookie, CORS. Dùng DevTools Network & `curl -v` |
+| 1 | Mạng: mô hình OSI 7 lớp & TCP/IP (mỗi lớp làm gì, giao thức nào thuộc lớp nào), DNS, TCP (bắt tay 3 bước), UDP, TLS, HTTP/1.1 vs 2 vs 3, header, cache (`Cache-Control`, `ETag`), cookie, CORS. Dùng DevTools Network & `curl -v` |
 | 2 | Trình duyệt hoạt động thế nào: parse HTML/CSS, DOM/CSSOM, render tree, layout, paint, composite; reflow/repaint; event (bubbling, capturing, delegation) |
 | 3 | CSS chuyên sâu: cascade, specificity, box model, flexbox, grid, stacking context, responsive; Accessibility (ARIA, keyboard, semantic HTML) |
 | 4 | Web API: `fetch`, `AbortController`, History API, Web Storage, IndexedDB, Web Worker, Intersection Observer; Web Components |
@@ -211,7 +211,7 @@ Mục tiêu: hiểu thứ React đang che giấu.
 | Tuần | Nội dung |
 |---|---|
 | 1–3 | **Capstone Fullstack** theo đầy đủ quy trình (bên dưới). Gợi ý: nền tảng đặt lịch cho tiệm nhỏ, app quản lý chi tiêu nhóm, hoặc mini-LMS |
-| 4 | Chuẩn bị phỏng vấn: CV & portfolio, kể chuyện dự án (STAR), phỏng vấn thử: coding (không AI), FE/BE kiến thức, system design. (Tùy chọn) viết lại 1 service bằng Python FastAPI hoặc Java Spring Boot |
+| 4 | Tích hợp AI vào sản phẩm (gọi LLM API, streaming, MCP: Model Context Protocol để AI dùng công cụ/dữ liệu của hệ thống, bảo mật prompt injection). Chuẩn bị phỏng vấn: CV & portfolio, kể chuyện dự án (STAR), phỏng vấn thử: coding (không AI), FE/BE kiến thức, system design. (Tùy chọn) viết lại 1 service bằng Python FastAPI hoặc Java Spring Boot |
 
 - **Capstone yêu cầu:** monorepo FE (Next.js) + BE (Node/TS), PostgreSQL + Redis, auth đầy đủ, ≥ 1 tác vụ nền qua queue, realtime (WebSocket/SSE) ở ít nhất 1 tính năng, test (unit + integration + E2E), CI/CD, deploy HTTPS, giám sát, tài liệu kiến trúc + ADR, checklist bảo mật OWASP đã qua.
 
