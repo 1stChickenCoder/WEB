@@ -68,7 +68,7 @@ const checkStatus = (status) => {
   return Number.isInteger(n) && n >= 100 && n <= 599;
 };
 
-const checkPath = (path) => {
+const stripQuery = (path) => {
   let _path = "";
   _path = path.split("?")?.[0];
   return _path;
@@ -118,7 +118,7 @@ export function analyzeLogs(samples) {
 
       byStatus.push(status);
 
-      paths.push(checkPath(path));
+      paths.push(stripQuery(path));
 
       totalDuration += Number(duration.slice(0, -2));
 
@@ -145,7 +145,6 @@ export function analyzeLogs(samples) {
       .slice(0, 3),
   );
 
-  results.topPaths = paths !== undefined ? paths : "";
   results.total = total !== undefined ? total : 0;
   results.invalid = invalid !== undefined ? invalid : 0;
   results.byStatus = countStatus !== undefined ? countStatus : {};
@@ -158,7 +157,7 @@ export function analyzeLogs(samples) {
   results.slowest =
     total !== 0
       ? {
-          path: slowestPath,
+          path: slowestPath.split("?")[0],
           durationMs: slowestDuration,
         }
       : null;

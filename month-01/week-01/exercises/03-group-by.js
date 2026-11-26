@@ -26,9 +26,10 @@ export function groupBy(arr, keyOrFn) {
   if (!Array.isArray(arr)) {
     throw new TypeError("arr must be an array");
   }
+  const map = new Map();
   const result = {};
-  for (let i in arr) {
-    const item = arr[i];
+  for (let i of arr) {
+    const item = i;
     let key;
     if (typeof keyOrFn === "function") {
       key = keyOrFn(item);
@@ -37,22 +38,14 @@ export function groupBy(arr, keyOrFn) {
     } else {
       throw new TypeError("keyOrFn must be a function or a string");
     }
-    if (!result[key]) {
-      result[key] = [];
+    if (map.get(key) === undefined) {
+      map.set(key, []);
     }
-    result[key].push(item);
+    map.get(key).push(item);
+  }
+
+  for (const [key, value] of map) {
+    result[key] = value;
   }
   return result;
 }
-
-// console.log(groupBy([1.2, 1.8, 2.1], Math.floor));
-// console.log(
-//   groupBy(
-//     [
-//       { role: "admin", name: "An" },
-//       { role: "user", name: "Bình" },
-//       { role: "admin", name: "Chi" },
-//     ],
-//     "role",
-//   ),
-// );

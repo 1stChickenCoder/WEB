@@ -21,27 +21,26 @@
 // export function flatten(arr, depth = Infinity) {
 //   // TODO
 // }
-import util from 'util';
-
 export function flatten(arr, depth = Infinity) {
-  // TODO
   if (!Array.isArray(arr)) throw new TypeError("arr must be an array");
 
   const result = [];
-  for (const item of arr) {
-    if (Array.isArray(item) && depth > 0) {
-      result.push(...flatten(item, depth - 1));
+  const stack = [];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    stack.push([arr[i], depth]);
+  }
+
+  while (stack.length > 0) {
+    const [current, currentDepth] = stack.pop();
+
+    if (Array.isArray(current) && currentDepth > 0) {
+      for (let i = current.length - 1; i >= 0; i--) {
+        stack.push([current[i], currentDepth - 1]);
+      }
     } else {
-      result.push(item);
+      result.push(current);
     }
   }
+
   return result;
 }
-
-console.log([1, [2, [3, [4]]]].flat(1))
-
-console.log(util.inspect(flatten([1, [2, [3, [4]]]]), { depth: null, colors: true }));
-console.log(util.inspect(flatten([1, [2, [3, [4]]]], 1), { depth: null, colors: true }));
-console.log(util.inspect(flatten([1, [2, [3, [4]]]], 2), { depth: null, colors: true }));
-console.log(util.inspect(flatten([1, [2, [3, [4]]]], 3), { depth: null, colors: true }));
-console.log(util.inspect(flatten([]), { depth: null, colors: true }));

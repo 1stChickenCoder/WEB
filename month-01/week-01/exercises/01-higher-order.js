@@ -33,7 +33,7 @@ export function myMap(arr, fn) {
   const result = [];
   for (let i = 0; i < arr.length; i++) {
     const res = fn(arr[i], i, arr);
-    if (res !== undefined) result.push(res);
+    result.push(res);
   }
   return result;
 }
@@ -62,21 +62,12 @@ export function myReduce(arr, reducer, initialValue) {
   let startIndex = 0;
   if (arguments.length >= 3) {
     acc = initialValue;
-
   } else {
     acc = arr[0];
     startIndex = 1;
   }
-  for (
-    let i = startIndex;
-    i < arr.length;
-    i++
-  ) {
+  for (let i = startIndex; i < arr.length; i++) {
     acc = reducer(acc, arr[i], i, arr);
   }
   return acc;
 }
-
-console.log(myMap([1, 2, 3], (x) => x * 2));
-console.log(myFilter([1, 2, 3, 4], (x) => x % 2 === 0));
-console.log(myReduce([1, 2, 3, 4], (acc, x) => acc + x, 0));

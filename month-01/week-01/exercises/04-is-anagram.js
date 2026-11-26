@@ -49,8 +49,3 @@ export function isAnagram(a, b) {
 
   return true;
 }
-
-console.log(isAnagram("listen", "silent")); // true
-console.log(isAnagram("Dormitory", "dirty room")); // true
-console.log(isAnagram("rat", "car")); // false
-console.log(isAnagram("aab", "abb")); // false
