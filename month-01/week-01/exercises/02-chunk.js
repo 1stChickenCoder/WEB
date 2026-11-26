@@ -31,7 +31,3 @@ export function chunk(arr, size) {
   }
   return result;
 }
-
-console.log(chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
-console.log(chunk([1, 2, 3], 5));       // [[1, 2, 3]]
-console.log(chunk([], 3));              // []

@@ -39,9 +39,3 @@ export function compress(str) {
   const compressed = result.join('');
   return compressed.length < str.length ? compressed : str;
 }
-
-console.log(compress('aaabccc'));         // 'a3b1c3'
-console.log(compress('aaaaaaaaaaaab'));  // 'a12b1'
-console.log(compress('abc'));            // 'abc'
-console.log(compress('aabbcc'));         // 'aabbcc'
-console.log(compress(''));               // ''  

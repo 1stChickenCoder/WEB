@@ -29,6 +29,9 @@ export function deepEqual(a, b) {
   // 1. Cùng giá trị/tham chiếu (0 === -0 là true, NaN === NaN là false)
   if (a === b) return true;
 
+  // 1.1. Cùng giá trị NaN
+  if (Number.isNaN(a) && Number.isNaN(b)) return true;
+
   // 2. Khác kiểu thì không bằng
   if (typeof a !== typeof b) return false;
 
